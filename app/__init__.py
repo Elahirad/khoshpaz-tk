@@ -31,7 +31,7 @@ class App(CTk):
         set_appearance_mode("system")
         set_default_color_theme("green")
         self.after(200, lambda: self.iconbitmap("./app/logo.ico"))
-        self.title("Catering Application")
+        self.title("کترینگ خوش‌پز")
 
         # Side menu
         self.build_side_menu()
@@ -41,7 +41,7 @@ class App(CTk):
         frame = CTkFrame(self, width=170, height=550)
 
         frame.pack_propagate(0)
-        frame.pack(fill="y", anchor="w", side="left")
+        frame.pack(fill="y", anchor="e", side="right")
 
         logo_image_data = Image.open("./app/logo.png")
         logo_image = CTkImage(
@@ -51,9 +51,9 @@ class App(CTk):
         CTkLabel(master=frame, text="", image=logo_image).pack(
             pady=(15, 0), anchor="center"
         )
-        CTkLabel(
-            master=frame, text="Catering Application", font=("Arial Bold", 14)
-        ).pack(anchor="center", pady=(10, 0))
+        CTkLabel(master=frame, text="کترینگ خوش‌پز", font=("B Koodak Bold", 20)).pack(
+            anchor="center", pady=(10, 0)
+        )
 
         def switch_event():
             if switch_var.get() == "on":
@@ -64,7 +64,8 @@ class App(CTk):
         switch_var = StringVar(value="on" if get_appearance_mode() == "Dark" else "off")
         switch = CTkSwitch(
             frame,
-            text="Dark Mode",
+            text="حالت تاریک",
+            font=("B Nazanin Bold", 14),
             command=switch_event,
             variable=switch_var,
             onvalue="on",
