@@ -1,0 +1,4 @@
+MANAGE_ORDERS, MANAGE_ECO_PACKS, MANAGE_FOODS, MANAGE_INGREDIENTS, MANAGE_PARTS = range(
+    5
+)
+normal_text_font = ("B Nazanin Bold", 14)
