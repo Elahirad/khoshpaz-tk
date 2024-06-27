@@ -18,9 +18,9 @@ from app.types import Observer, IApp
 
 class SideBar(CTkFrame, Observer):
 
-    def __init__(self, master: IApp, *args, **kwargs) -> None:
+    def __init__(self, app: IApp, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.__app: IApp = master
+        self.__app: IApp = app
         logo_image_data = Image.open("./app/assets/logo.png")
         logo_image = CTkImage(
             dark_image=logo_image_data, light_image=logo_image_data, size=(120, 120)
