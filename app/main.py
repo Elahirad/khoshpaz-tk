@@ -1,7 +1,4 @@
 from customtkinter import (
-    CTk,
-)
-from customtkinter import (
     set_appearance_mode,
     set_default_color_theme,
     ThemeManager,
@@ -10,13 +7,13 @@ from customtkinter import (
 from app.constants import *
 from app.main_view import MainView
 from app.sidebar import SideBar
-from app.types import Observer
+from app.types import Observer, IApp
 
 
-class App(CTk):
-    def __init__(self, *args, **kwargs):
+class App(IApp):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.observers: Observer = []
+        self.__observers: list[Observer] = []
 
         # Geometry
         self.geometry("850x650")
@@ -30,35 +27,34 @@ class App(CTk):
 
         self.mode = MANAGE_ORDERS
 
-        # Side bar view
-        self.sidebar = SideBar(self, self, width=170, height=650)
-        self.sidebar.pack_propagate(0)
-        self.sidebar.pack(fill="y", anchor="e", side="right")
-        self.add_observer(self.sidebar)
+        # Sidebar view
+        self.__sidebar = SideBar(self, self, width=170, height=650)
+        self.__sidebar.pack_propagate(False)
+        self.__sidebar.pack(fill="y", anchor="e", side="right")
+        self.__add_observer(self.__sidebar)
 
         # Main view
-        self.main_view = MainView(
+        self.__main_view = MainView(
             self,
             self,
             width=680,
             height=650,
             fg_color=ThemeManager.theme["CTk"]["fg_color"],
         )
-        self.main_view.pack_propagate(0)
-        self.main_view.pack(fill="both", anchor="e", side="right")
+        self.__main_view.pack_propagate(False)
+        self.__main_view.pack(fill="both", anchor="e", side="right")
+        self.__add_observer(self.__main_view)
 
-        self.add_observer(self.main_view)
-
-    def switch_mode(self, new_mode):
+    def switch_mode(self, new_mode: int) -> None:
         self.mode = new_mode
-        self._notify()
+        self.__notify()
 
-    def add_observer(self, observer: Observer):
-        self.observers.append(observer)
+    def __add_observer(self, observer: Observer) -> None:
+        self.__observers.append(observer)
 
-    def remove_observer(self, observer: Observer):
-        self.observers.remove(observer)
+    def __remove_observer(self, observer: Observer) -> None:
+        self.__observers.remove(observer)
 
-    def _notify(self):
-        for observer in self.observers:
+    def __notify(self) -> None:
+        for observer in self.__observers:
             observer.update()

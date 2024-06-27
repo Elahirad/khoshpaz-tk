@@ -2,7 +2,7 @@ from customtkinter import CTkFrame, CTkLabel
 
 
 class ManageEcoPacks(CTkFrame):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         CTkLabel(
             master=self, text="مدیریت بسته‌های اقتصادی", font=("B Koodak Bold", 25)
