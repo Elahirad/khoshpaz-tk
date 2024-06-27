@@ -12,9 +12,9 @@ from app.types import Observer, IApp
 
 class MainView(CTkFrame, Observer):
 
-    def __init__(self, master: IApp, *args, **kwargs) -> None:
+    def __init__(self, app: IApp, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.__app: IApp = master
+        self.__app: IApp = app
 
         self.__manage_ingredients = ManageIngredients(
             self, width=680, height=650, fg_color=ThemeManager.theme["CTk"]["fg_color"]
