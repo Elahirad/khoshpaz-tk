@@ -1,6 +1,5 @@
 from app.constants import *
 
-
 from PIL import Image
 from customtkinter import (
     CTkButton,
@@ -14,14 +13,14 @@ from customtkinter import (
     set_appearance_mode,
 )
 
-from app.types import Observer
+from app.types import Observer, IApp
 
 
 class SideBar(CTkFrame, Observer):
 
-    def __init__(self, master: CTkFrame, *args, **kwargs):
+    def __init__(self, master: IApp, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.master = master
+        self.__app: IApp = master
         logo_image_data = Image.open("./app/assets/logo.png")
         logo_image = CTkImage(
             dark_image=logo_image_data, light_image=logo_image_data, size=(120, 120)
@@ -34,7 +33,7 @@ class SideBar(CTkFrame, Observer):
             anchor="center", pady=(10, 0)
         )
 
-        def switch_event():
+        def switch_event() -> None:
             if switch_var.get() == "on":
                 set_appearance_mode("dark")
             else:
@@ -53,62 +52,63 @@ class SideBar(CTkFrame, Observer):
 
         switch.pack(pady=(15, 0))
 
-        self.btn1 = CTkButton(
+        self.__btn1 = CTkButton(
             master=self,
             text="مدیریت سفارش‌ها",
             font=normal_text_font,
             anchor="center",
-            command=lambda: self.master.switch_mode(MANAGE_ORDERS),
+            command=lambda: self.__app.switch_mode(MANAGE_ORDERS),
         )
-        self.btn2 = CTkButton(
+        self.__btn2 = CTkButton(
             master=self,
             text="مدیریت بسته‌های اقتصادی",
             font=normal_text_font,
             anchor="center",
-            command=lambda: self.master.switch_mode(MANAGE_ECO_PACKS),
+            command=lambda: self.__app.switch_mode(MANAGE_ECO_PACKS),
         )
-        self.btn3 = CTkButton(
+        self.__btn3 = CTkButton(
             master=self,
             text="مدیریت غذاها",
             font=normal_text_font,
             anchor="center",
-            command=lambda: self.master.switch_mode(MANAGE_FOODS),
+            command=lambda: self.__app.switch_mode(MANAGE_FOODS),
         )
-        self.btn4 = CTkButton(
+        self.__btn4 = CTkButton(
             master=self,
             text="مدیریت مواد اولیه",
             font=normal_text_font,
             anchor="center",
-            command=lambda: self.master.switch_mode(MANAGE_INGREDIENTS),
+            command=lambda: self.__app.switch_mode(MANAGE_INGREDIENTS),
         )
-        self.btn5 = CTkButton(
+        self.__btn5 = CTkButton(
             master=self,
             text="مدیریت اجزای غذا",
             font=normal_text_font,
             anchor="center",
-            command=lambda: self.master.switch_mode(MANAGE_PARTS),
+            command=lambda: self.__app.switch_mode(MANAGE_PARTS),
         )
 
-        self.btn1.pack(anchor="center", ipady=5, pady=(30, 0))
-        self.btn2.pack(anchor="center", ipady=5, pady=(30, 0))
-        self.btn3.pack(anchor="center", ipady=5, pady=(30, 0))
-        self.btn4.pack(anchor="center", ipady=5, pady=(30, 0))
-        self.btn5.pack(anchor="center", ipady=5, pady=(30, 0))
-        self.switch_mode()
+        self.__btn1.pack(anchor="center", ipady=5, pady=(30, 0))
+        self.__btn2.pack(anchor="center", ipady=5, pady=(30, 0))
+        self.__btn3.pack(anchor="center", ipady=5, pady=(30, 0))
+        self.__btn4.pack(anchor="center", ipady=5, pady=(30, 0))
+        self.__btn5.pack(anchor="center", ipady=5, pady=(30, 0))
+        self.__switch_mode()
 
-    def switch_mode(self):
-        for btn in [self.btn1, self.btn2, self.btn3, self.btn4, self.btn5]:
+    def __switch_mode(self) -> None:
+        buttons: list[CTkButton] = [self.__btn1, self.__btn2, self.__btn3, self.__btn4, self.__btn5]
+        for btn in buttons:
             btn.configure(fg_color=ThemeManager.theme["CTkButton"]["fg_color"])
-        if self.master.mode == MANAGE_ORDERS:
-            self.btn1.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])
-        if self.master.mode == MANAGE_ECO_PACKS:
-            self.btn2.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])
-        if self.master.mode == MANAGE_FOODS:
-            self.btn3.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])
-        if self.master.mode == MANAGE_INGREDIENTS:
-            self.btn4.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])
-        if self.master.mode == MANAGE_PARTS:
-            self.btn5.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])
+        if self.__app.mode == MANAGE_ORDERS:
+            self.__btn1.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])
+        if self.__app.mode == MANAGE_ECO_PACKS:
+            self.__btn2.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])
+        if self.__app.mode == MANAGE_FOODS:
+            self.__btn3.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])
+        if self.__app.mode == MANAGE_INGREDIENTS:
+            self.__btn4.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])
+        if self.__app.mode == MANAGE_PARTS:
+            self.__btn5.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])
 
     def update(self):
-        self.switch_mode()
+        self.__switch_mode()
