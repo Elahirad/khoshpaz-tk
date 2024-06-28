@@ -1,6 +1,6 @@
 from customtkinter import CTkFrame, CTkScrollableFrame, CTkLabel
 
-from app.pages.components.row import Row
+from app.view.pages.components.row import Row
 
 
 class Table(CTkFrame):

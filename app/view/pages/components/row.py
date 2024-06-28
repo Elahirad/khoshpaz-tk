@@ -1,6 +1,6 @@
 from customtkinter import CTkFrame, CTkLabel, CTkButton, ThemeManager
 
-from app.constants import normal_text_font
+from app.view.constants import normal_text_font
 
 
 class Row(CTkFrame):

@@ -1,1 +1,1 @@
-from .main import App
+from app.view import AppView

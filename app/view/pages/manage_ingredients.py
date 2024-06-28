@@ -1,8 +1,8 @@
 from customtkinter import CTkFrame, CTkLabel, CTkButton
 
-from app.constants import normal_text_font
-from app.pages.components import Table, InputFrame
-from app.context import Context
+from app.view.constants import normal_text_font
+from app.view.pages.components import Table, InputFrame
+from app.view.context import Context
 
 
 class ManageIngredients(CTkFrame):
