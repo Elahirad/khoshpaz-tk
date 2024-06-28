@@ -23,7 +23,7 @@ class SideBar(CTkFrame):
         self.__context = Context()
         self.__context.add_callback(self.__switch_ui_mode)
 
-        logo_image_data = Image.open("./app/assets/logo.png")
+        logo_image_data = Image.open("./app/view/assets/logo.png")
         logo_image = CTkImage(
             dark_image=logo_image_data, light_image=logo_image_data, size=(120, 120)
         )
