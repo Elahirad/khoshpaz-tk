@@ -30,7 +30,7 @@ class AppView(CTk):
         # Appearance
         set_appearance_mode("system")
         set_default_color_theme("green")
-        self.after(200, lambda: self.iconbitmap("./app/assets/logo.ico"))
+        self.after(200, lambda: self.iconbitmap("./app/view/assets/logo.ico"))
         self.title("کترینگ خوش‌پز")
 
         self.__build_view()
