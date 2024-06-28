@@ -1,6 +1,6 @@
 from customtkinter import CTkFrame, CTkEntry, CTkButton
 
-from app.constants import normal_text_font
+from app.view.constants import normal_text_font
 
 
 class InputFrame(CTkFrame):

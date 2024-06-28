@@ -4,13 +4,13 @@ from customtkinter import (
     ThemeManager, CTk,
 )
 
-from app.constants import *
-from app.main_view import MainView
-from app.sidebar import SideBar
+from app.view.constants import *
+from app.view.main_view import MainView
+from app.view.sidebar import SideBar
 from .context import Context
 
 
-class App(CTk):
+class AppView(CTk):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.__main_view = None

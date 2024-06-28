@@ -1,6 +1,6 @@
 from customtkinter import CTkFrame, ThemeManager
-from app.constants import *
-from app.pages import (
+from app.view.constants import *
+from app.view.pages import (
     ManageIngredients,
     ManageEcoPacks,
     ManageFoods,
@@ -8,7 +8,7 @@ from app.pages import (
     ManageOrders,
 )
 
-from app.context import Context
+from app.view.context import Context
 
 
 class MainView(CTkFrame):
