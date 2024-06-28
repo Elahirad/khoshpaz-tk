@@ -7,14 +7,16 @@ from app.pages import (
     ManageParts,
     ManageOrders,
 )
-from app.types import Observer, IApp
+
+from app.context import Context
 
 
-class MainView(CTkFrame, Observer):
+class MainView(CTkFrame):
 
-    def __init__(self, app: IApp, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.__app: IApp = app
+        self.__context = Context()
+        self.__context.add_callback(self.__build_view)
 
         self.__manage_ingredients = ManageIngredients(
             self, width=680, height=650, fg_color=ThemeManager.theme["CTk"]["fg_color"]
@@ -48,16 +50,14 @@ class MainView(CTkFrame, Observer):
         ]
         for frame in frames:
             frame.pack_forget()
-        if self.__app.mode == MANAGE_INGREDIENTS:
+        mode = self.__context['mode']
+        if mode == MANAGE_INGREDIENTS:
             self.__manage_ingredients.pack(fill="both", anchor="e", side="right")
-        elif self.__app.mode == MANAGE_ECO_PACKS:
+        elif mode == MANAGE_ECO_PACKS:
             self.__manage_eco_packs.pack(fill="both", anchor="e", side="right")
-        elif self.__app.mode == MANAGE_PARTS:
+        elif mode == MANAGE_PARTS:
             self.__manage_parts.pack(fill="both", anchor="e", side="right")
-        elif self.__app.mode == MANAGE_FOODS:
+        elif mode == MANAGE_FOODS:
             self.__manage_foods.pack(fill="both", anchor="e", side="right")
-        elif self.__app.mode == MANAGE_ORDERS:
+        elif mode == MANAGE_ORDERS:
             self.__manage_orders.pack(fill="both", anchor="e", side="right")
-
-    def update(self) -> None:
-        self.__build_view()

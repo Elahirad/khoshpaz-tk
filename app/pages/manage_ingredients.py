@@ -38,9 +38,9 @@ class ManageIngredients(CTkFrame):
                                           font=normal_text_font)
         self.__report_button3 = CTkButton(master=self.__report_frame, text="۳ گزارش", command=self.__report3,
                                           font=normal_text_font)
-        self.__report_button3.pack(side="right", padx=5)
-        self.__report_button2.pack(side="right", padx=5)
         self.__report_button1.pack(side="right", padx=5)
+        self.__report_button2.pack(side="right", padx=5)
+        self.__report_button3.pack(side="right", padx=5)
 
     def __report1(self): print("۱ گزارش اجرا شد")
 
