@@ -55,6 +55,7 @@ class Order:
     customer_id: int
     foods: list[Food]
     price: float
+    accept_time: datetime
     status: int  # 0 for pending and 1 for completed
     preparation_time: int  # Seconds
 
