@@ -6,7 +6,9 @@ from app.view.constants import normal_text_font
 
 
 class Row(CTkFrame):
-    def __init__(self, item, columns, delete_callback: Callable, update_callback: Callable, *args, **kwargs) -> None:
+    def __init__(self, item: dict, columns: list[tuple[str, str]], delete_callback: Callable,
+                 update_callback: Callable,
+                 *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.__columns = columns
         self.__data = item
@@ -16,7 +18,7 @@ class Row(CTkFrame):
         self.grid_columnconfigure((0, 1), weight=1)
 
         for colIdx, col in enumerate(reversed(self.__columns)):
-            label = CTkLabel(master=self, text=self.__data[col], font=normal_text_font, anchor='e')
+            label = CTkLabel(master=self, text=self.__data[col[0]], font=normal_text_font, anchor='e')
             label.grid(row=0, column=colIdx + 2)
 
         delete_button = CTkButton(master=self, text="حذف", command=lambda: delete_callback(self.__data['id']),

@@ -20,7 +20,7 @@ class ManageIngredients(CTkFrame):
             master=self, text="مدیریت مواد اولیه", font=("B Koodak Bold", 25)
         ).pack(fill="x", anchor="center", pady=10)
 
-        self.__columns = ["نام", "واحد"]
+        self.__columns = [('name', 'نام'), ('unit', 'واحد')]
 
         def show_input_modal():
             self.__input_window = IngredientInputForm(self.__add_callback)
@@ -66,27 +66,44 @@ class ManageIngredients(CTkFrame):
         self.__table.pack(pady=10, padx=10, fill="both", expand=True)
         self.__report_frame.pack(pady=10, fill="x")
 
-    @staticmethod
-    def __add_callback(name, unit):
-        print(name, unit)
+    def __add_callback(self, name, unit):
+        new_ing = self.__context.controller.add_ingredient(name, unit)
+        self.__context['ingredients'] = [*self.__context['ingredients'], new_ing]
 
     def __delete_callback(self, item_id: int):
         def delete(confirmed: bool):
-            print(f"Delete item with id: {item_id} {' ' if confirmed else 'not '}Confirmed !")
+            if confirmed:
+                if self.__context.controller.remove_ingredient(item_id):
+                    new_data = [ing for ing in self.__context['ingredients']]
+                    for idx, ing in enumerate(new_data):
+                        if ing['id'] == item_id:
+                            del new_data[idx]
+
+                    self.__context['ingredients'] = new_data
 
         self.__delete_window = IngredientDelete(delete)
         self.__delete_window.grab_set()
 
     def __update_callback(self, item: dict):
         def update(data):
-            print(data)
+            updated = self.__context.controller.update_ingredient(item['id'], data['name'], data['unit'])
 
-        del item['id']
+            new_data = [ing for ing in self.__context['ingredients']]
+            for ing in new_data:
+                if ing['id'] == updated['id']:
+                    ing['unit'] = updated['unit']
+                    ing['name'] = updated['name']
+
+            self.__context['ingredients'] = new_data
+
         self.__update_window = IngredientUpdateForm(item, update)
         self.__update_window.grab_set()
 
-    def __report1(self): print("۱ گزارش اجرا شد")
+    def __report1(self):
+        print("۱ گزارش اجرا شد")
 
-    def __report2(self): print("۲ گزارش اجرا شد")
+    def __report2(self):
+        print("۲ گزارش اجرا شد")
 
-    def __report3(self): print("۳ گزارش اجرا شد")
+    def __report3(self):
+        print("۳ گزارش اجرا شد")

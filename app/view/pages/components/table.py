@@ -6,11 +6,11 @@ from app.view.pages.components.row import Row
 
 
 class Table(CTkFrame):
-    def __init__(self, items: list[dict], columns: list[str], delete_callback: Callable,
+    def __init__(self, items: list[dict], columns: list[tuple[str, str]], delete_callback: Callable,
                  update_callback: Callable, *args, **kw) -> None:
         super().__init__(*args, **kw)
         self.__items: list[dict] = items
-        self.__columns: list[str] = columns
+        self.__columns = columns
         self.__rows: list[Row] = []
         self.__delete_callback = delete_callback
         self.__update_callback = update_callback
@@ -23,7 +23,7 @@ class Table(CTkFrame):
         self.__table_header.grid_columnconfigure((0, 1), weight=1)
 
         for idx, col in enumerate(reversed(self.__columns)):
-            label = CTkLabel(master=self.__table_header, text=col, font=("B Koodak Bold", 15))
+            label = CTkLabel(master=self.__table_header, text=col[1], font=("B Koodak Bold", 15))
             label.grid(row=0, column=idx + 2, padx=5)
 
         label = CTkLabel(master=self.__table_header, text='حذف', font=("B Koodak Bold", 15))
