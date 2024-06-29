@@ -52,12 +52,12 @@ class MainView(CTkFrame):
             frame.pack_forget()
         mode = self.__context['mode']
         if mode == MANAGE_INGREDIENTS:
-            self.__manage_ingredients.pack(fill="both", anchor="e", side="right")
+            self.__manage_ingredients.pack(fill="both", anchor="e", side="right", expand=True)
         elif mode == MANAGE_ECO_PACKS:
-            self.__manage_eco_packs.pack(fill="both", anchor="e", side="right")
+            self.__manage_eco_packs.pack(fill="both", anchor="e", side="right", expand=True)
         elif mode == MANAGE_PARTS:
-            self.__manage_parts.pack(fill="both", anchor="e", side="right")
+            self.__manage_parts.pack(fill="both", anchor="e", side="right", expand=True)
         elif mode == MANAGE_FOODS:
-            self.__manage_foods.pack(fill="both", anchor="e", side="right")
+            self.__manage_foods.pack(fill="both", anchor="e", side="right", expand=True)
         elif mode == MANAGE_ORDERS:
             self.__manage_orders.pack(fill="both", anchor="e", side="right")

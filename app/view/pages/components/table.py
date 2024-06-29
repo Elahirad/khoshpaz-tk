@@ -1,14 +1,19 @@
+from typing import Callable
+
 from customtkinter import CTkFrame, CTkScrollableFrame, CTkLabel
 
 from app.view.pages.components.row import Row
 
 
 class Table(CTkFrame):
-    def __init__(self, items: list[dict], columns: list[str], *args, **kw) -> None:
+    def __init__(self, items: list[dict], columns: list[str], delete_callback: Callable,
+                 update_callback: Callable, *args, **kw) -> None:
         super().__init__(*args, **kw)
         self.__items: list[dict] = items
         self.__columns: list[str] = columns
         self.__rows: list[Row] = []
+        self.__delete_callback = delete_callback
+        self.__update_callback = update_callback
 
         self.configure(fg_color='transparent')
         self.__table_header = CTkFrame(master=self, fg_color='transparent')
@@ -33,6 +38,7 @@ class Table(CTkFrame):
     def __build_rows(self, items: list[dict]) -> None:
         self.__items = items
         for itemIdx, item in enumerate(self.__items):
-            row = Row(item, self.__columns, master=self.__scrollable_frame)
+            row = Row(item, self.__columns, master=self.__scrollable_frame, delete_callback=self.__delete_callback,
+                      update_callback=self.__update_callback)
             row.pack(fill="x")
             self.__rows.append(row)
