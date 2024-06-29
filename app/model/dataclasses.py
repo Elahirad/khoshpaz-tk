@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from datetime import datetime
 
 
 @dataclass
@@ -19,33 +18,33 @@ class Ingredient:
 @dataclass
 class IngredientInventoryItem:
     id: int
-    ingredient: Ingredient
+    ingredient_id: int
     quantity: float
     price: float
-    entrance_date: datetime
-    manufacture_date: datetime
-    expire_date: datetime
+    entrance_date: str
+    manufacture_date: str
+    expire_date: str
 
 
 @dataclass
 class Part:
     id: int
     name: str
-    ingredients: list[dict[Ingredient, float]]
+    ingredients: list[dict[int, float]]  # list[dict[ingredient_id, float]
 
 
 @dataclass
 class Food:
     id: int
     name: str
-    parts: list[Part]
+    parts: list[int]  # list[part_id]
 
 
 @dataclass
 class EcoPack:
     id: int
     name: str
-    foods: list[Food]
+    foods: list[int]  # list[food_id]
     discount: float
 
 
@@ -53,9 +52,9 @@ class EcoPack:
 class Order:
     id: int
     customer_id: int
-    foods: list[Food]
+    foods: list[int]  # list[food_id]
     price: float
-    accept_time: datetime
+    accept_time: str
     status: int  # 0 for pending and 1 for completed
     preparation_time: int  # Seconds
 
@@ -64,4 +63,4 @@ class Order:
 class Customer:
     id: int
     name: str
-    orders: list[Order]
+    orders: list[int]  # list[order_id]
