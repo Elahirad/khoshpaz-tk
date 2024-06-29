@@ -1,12 +1,15 @@
 from typing import Callable
 from .tools import singleton
 
+from app.controller import Controller
+
 
 @singleton
 class Context:
     def __init__(self):
         self.__data: dict = {}
         self.__callbacks: list[Callable] = []
+        self.controller: Controller | None = None
 
     def add_callback(self, callback: Callable) -> None:
         self.__callbacks.append(callback)

@@ -2,10 +2,7 @@ from typing import Callable
 
 from customtkinter import CTkLabel, CTkButton, CTkEntry, CTkFrame, CTkToplevel
 
-import datetime
-
 from app.view.constants import normal_text_font
-from app.view.pages.components.calendar_frame import CalendarFrame
 
 
 class IngredientInputForm(CTkToplevel):

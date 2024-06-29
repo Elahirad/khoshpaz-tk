@@ -2,10 +2,7 @@ from typing import Callable
 
 from customtkinter import CTkLabel, CTkButton, CTkEntry, CTkFrame, CTkToplevel
 
-import datetime
-
 from app.view.constants import normal_text_font
-from app.view.pages.components.calendar_frame import CalendarFrame
 
 
 class IngredientUpdateForm(CTkToplevel):
@@ -14,20 +11,22 @@ class IngredientUpdateForm(CTkToplevel):
         self.geometry("400x300")
         self.resizable(False, False)
 
+        self.__current_values = current_values
+
         self.__callback = callback
         CTkLabel(
-            master=self, text="افزودن ماده اولیه", font=("B Koodak Bold", 25)
+            master=self, text="ویرایش ماده اولیه", font=("B Koodak Bold", 25)
         ).pack(fill="x", anchor="center", pady=10)
 
         CTkLabel(self, text="نام", font=normal_text_font).pack()
         self.__name_entry = CTkEntry(self, font=normal_text_font)
         self.__name_entry.pack()
-        self.__name_entry.insert(0, current_values["نام"])
+        self.__name_entry.insert(0, self.__current_values["name"])
 
         CTkLabel(self, text="واحد", font=normal_text_font).pack()
         self.__unit_entry = CTkEntry(self, font=normal_text_font)
         self.__unit_entry.pack()
-        self.__unit_entry.insert(0, current_values["واحد"])
+        self.__unit_entry.insert(0, self.__current_values["unit"])
 
         CTkButton(self, text="ثبت", font=('B Koodak Bold', 25), command=self.__submit).pack(pady=20)
 
@@ -35,6 +34,6 @@ class IngredientUpdateForm(CTkToplevel):
         name = self.__name_entry.get()
         unit = self.__unit_entry.get()
 
-        self.__callback(name, unit)
+        self.__callback({'id': self.__current_values['id'], 'name': name, 'unit': unit})
 
         self.destroy()
