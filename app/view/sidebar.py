@@ -84,10 +84,24 @@ class SideBar(CTkFrame):
         )
         self.__btn5 = CTkButton(
             master=self,
+            text="مدیریت انبار",
+            font=normal_text_font,
+            anchor="center",
+            command=lambda: self.switch_mode(MANAGE_INVENTORY),
+        )
+        self.__btn6 = CTkButton(
+            master=self,
             text="مدیریت اجزای غذا",
             font=normal_text_font,
             anchor="center",
             command=lambda: self.switch_mode(MANAGE_PARTS),
+        )
+        self.__btn7 = CTkButton(
+            master=self,
+            text="مدیریت مشتریان",
+            font=normal_text_font,
+            anchor="center",
+            command=lambda: self.switch_mode(MANAGE_CUSTOMERS),
         )
 
         self.__btn1.pack(anchor="center", ipady=5, pady=(30, 0))
@@ -95,13 +109,16 @@ class SideBar(CTkFrame):
         self.__btn3.pack(anchor="center", ipady=5, pady=(30, 0))
         self.__btn4.pack(anchor="center", ipady=5, pady=(30, 0))
         self.__btn5.pack(anchor="center", ipady=5, pady=(30, 0))
+        self.__btn6.pack(anchor="center", ipady=5, pady=(30, 0))
+        self.__btn7.pack(anchor="center", ipady=5, pady=(30, 0))
         self.__switch_ui_mode()
 
     def switch_mode(self, mode: int) -> None:
         self.__context['mode'] = mode
 
     def __switch_ui_mode(self) -> None:
-        buttons: list[CTkButton] = [self.__btn1, self.__btn2, self.__btn3, self.__btn4, self.__btn5]
+        buttons: list[CTkButton] = [self.__btn1, self.__btn2, self.__btn3, self.__btn4, self.__btn5, self.__btn6,
+                                    self.__btn7]
         for btn in buttons:
             btn.configure(fg_color=ThemeManager.theme["CTkButton"]["fg_color"])
         mode = self.__context['mode']
@@ -113,5 +130,9 @@ class SideBar(CTkFrame):
             self.__btn3.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])
         if mode == MANAGE_INGREDIENTS:
             self.__btn4.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])
-        if mode == MANAGE_PARTS:
+        if mode == MANAGE_INVENTORY:
             self.__btn5.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])
+        if mode == MANAGE_PARTS:
+            self.__btn6.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])
+        if mode == MANAGE_CUSTOMERS:
+            self.__btn7.configure(fg_color=ThemeManager.theme["CTkButton"]["hover_color"])

@@ -27,14 +27,9 @@ class AppView(CTk, IView):
         self.__sidebar = None
         self.__context = Context()
         self.__context['mode'] = MANAGE_ORDERS
-        # fake_gredients = [
-        #     {"id": 1, "نام": "شکر", "واحد": "کیلو"},
-        #     {"id": 2, "نام": "روغن", "واحد": "کیلو"},
-        #     {"id": 3, "نام": "آرد", "واحد": "کیلو"},
-        # ]
         self.__context['ingredients'] = []
         # Geometry
-        self.geometry("850x650")
+        self.geometry("950x700")
         self.resizable(False, False)
 
         # Appearance
@@ -50,16 +45,16 @@ class AppView(CTk, IView):
             child.destroy()
 
         # Sidebar view
-        self.__sidebar = SideBar(self, width=170, height=650)
+        self.__sidebar = SideBar(self, width=170, height=self.winfo_height())
         self.__sidebar.pack_propagate(False)
         self.__sidebar.pack(fill="y", anchor="e", side="right")
 
         # Main view
         self.__main_view = MainView(
             self,
-            width=680,
-            height=650,
-            fg_color=ThemeManager.theme["CTk"]["fg_color"],
+            width=self.winfo_width() - 170,
+            height=self.winfo_height(),
+            fg_color='transparent',
         )
         self.__main_view.pack_propagate(False)
         self.__main_view.pack(fill="both", anchor="e", side="right")
