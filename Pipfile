@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 customtkinter = "*"
 pillow = "*"
+tkcalendar = "*"
 
 [dev-packages]
 
