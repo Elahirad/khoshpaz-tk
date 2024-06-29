@@ -43,7 +43,7 @@ class ManageIngredients(CTkFrame):
         self.__table.pack(pady=10, padx=10, fill="both", expand=True)
 
         # Report buttons
-        self.__report_frame = CTkFrame(master=self)
+        self.__report_frame = CTkFrame(master=self, fg_color='transparent')
         self.__report_frame.pack(pady=10, fill="x")
 
         self.__report_button1 = CTkButton(master=self.__report_frame, text="۱ گزارش", command=self.__report1,
