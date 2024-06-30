@@ -36,7 +36,15 @@ class Controller:
 
     def remove_ingredient(self, item_id: int) -> bool:
         ing = self._data_storage.get(Ingredient, item_id)
+        parts = self._data_storage.get_all(Part)
         if ing:
+            for part in parts:
+                for ingredient_id, amount in part.ingredients.items():
+                    if ingredient_id == ing.id:
+                        self._view.show_message('خطا',
+                                                'امکان حذف کردن این ماده وجود ندارد. زیرا در اجزاء غذاها، جزئی با این ماده وجود دارد',
+                                                'cancel')
+                        return False
             self._data_storage.remove(Ingredient, item_id)
             self._view.show_message('موفق', 'با موفقیت حذف شد', 'check')
             self._view.reload_app_data()
@@ -92,7 +100,16 @@ class Controller:
 
     def remove_part(self, item_id: int) -> bool:
         part = self._data_storage.get(Part, item_id)
+        foods = self._data_storage.get_all(Food)
         if part:
+            for food in foods:
+                for part_id, amount in food.parts.items():
+                    if part.id == part_id:
+                        self._view.show_message('خطا',
+                                                'امکان حذف کردن این جزء وجود ندارد. زیرا غذایی با این جزء وجود دارد',
+                                                'cancel')
+                        return False
+
             self._data_storage.remove(Part, item_id)
             self._view.show_message('موفق', 'با موفقیت حذف شد', 'check')
             self._view.reload_app_data()
@@ -130,7 +147,14 @@ class Controller:
 
     def remove_customer(self, customer_id: int) -> bool:
         customer = self._data_storage.get(Customer, customer_id)
+        orders = self._data_storage.get_all(Order)
         if customer:
+            for order in orders:
+                if order.customer_id == customer.id:
+                    self._view.show_message('خطا',
+                                            'امکان حذف کردن این مشتری وجود ندارد. زیرا سفارش‌هایی برای این مشتری وجود دارد',
+                                            'cancel')
+                    return False
             self._data_storage.remove(Customer, customer_id)
             self._view.show_message('موفق', 'با موفقیت حذف شد', 'check')
             self._view.reload_app_data()
@@ -188,7 +212,15 @@ class Controller:
 
     def remove_food(self, item_id: int) -> bool:
         food = self._data_storage.get(Food, item_id)
+        orders = self._data_storage.get_all(Order)
         if food:
+            for order in orders:
+                for food_id, amount in order.foods.items():
+                    if food_id == food.id:
+                        self._view.show_message('خطا',
+                                                'امکان حذف کردن این غذا وجود ندارد. زیرا سفارش‌هایی با این غذا وجود دارد',
+                                                'cancel')
+                        return False
             self._data_storage.remove(Food, item_id)
             self._view.show_message('موفق', 'با موفقیت حذف شد', 'check')
             self._view.reload_app_data()
