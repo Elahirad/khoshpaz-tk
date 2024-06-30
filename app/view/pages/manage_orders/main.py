@@ -1,10 +1,9 @@
 from customtkinter import CTkFrame, CTkLabel, CTkButton
 from app.view.constants import normal_text_font
-from app.view.pages.components import Table
+from app.view.pages.components import Table, DeleteDialog
 from app.view.context import Context
 from .order_input_form import OrderInputForm
 from .order_update_form import OrderUpdateForm
-from .order_delete import OrderDelete
 
 
 class ManageOrders(CTkFrame):
@@ -16,7 +15,7 @@ class ManageOrders(CTkFrame):
         self.data = self.__context['orders']
 
         CTkLabel(
-            master=self, text="مدیریت غذاها", font=("B Koodak Bold", 25)
+            master=self, text="مدیریت سفارش‌ها", font=("B Koodak Bold", 25)
         ).pack(fill="x", anchor="center", pady=10)
 
         self.__columns = [('customer', 'مشتری'), ('foods', 'غذاها'), ('paid_amount', 'مبلغ پرداختی'),
@@ -75,7 +74,7 @@ class ManageOrders(CTkFrame):
             if confirmed:
                 self.__context.controller.remove_order(item_id)
 
-        self.__delete_window = OrderDelete(delete)
+        self.__delete_window = DeleteDialog('حذف سفارش ؟', delete)
         self.__delete_window.grab_set()
 
     def __update_callback(self, item: dict):
