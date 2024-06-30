@@ -66,8 +66,8 @@ class IDataView(CTkFrame):
 
     def _show_delete_modal(self, entity_id: int):
         self._delete_window = DeleteDialog(f'حذف {self._singular_name} ؟',
-                                           lambda confirmed, eid=entity_id: self._delete_callback(entity_id,
-                                                                                                  confirmed))
+                                           lambda confirmed, eid=entity_id: self._delete_callback(confirmed,
+                                                                                                  eid))
         self._delete_window.grab_set()
 
     def _show_update_modal(self, entity: dict):
