@@ -1,8 +1,7 @@
 import datetime
 
-from customtkinter import CTkFrame, CTkButton
+from customtkinter import CTkButton
 from app.view.constants import normal_text_font
-from app.view.pages.components import DeleteDialog
 
 from app.view.pages.components import IDataView
 from .order_form import OrderForm

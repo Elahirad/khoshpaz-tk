@@ -1,11 +1,8 @@
-from typing import Callable
-
-from customtkinter import CTkLabel, CTkButton, CTkEntry, CTkToplevel, StringVar, CTkComboBox, CTkFrame
+from customtkinter import CTkLabel, CTkButton, CTkEntry, StringVar, CTkComboBox, CTkFrame
 
 from tkinter import Spinbox
 
 from app.view.constants import normal_text_font
-from app.view.context import Context
 
 from app.view.pages.components import IForm
 
