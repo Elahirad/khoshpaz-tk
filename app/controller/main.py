@@ -371,7 +371,7 @@ class Controller:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
             return False
 
-    def get_critical_inventory_items(self) -> dict:
+    def get_critical_inventory_items(self) -> list[dict]:
         result = {}
         ingredients = self._data_storage.get_all(Ingredient)
         in_stock = {ing.id: 0 for ing in ingredients}
@@ -382,7 +382,8 @@ class Controller:
             if count < 10:
                 result[ingredients[next(
                     i for i, v in enumerate(ingredients) if v.id == ing)].name] = 'ناموجود' if count == 0 else count
-        return result
+        return [{'name': k, 'quantity': v} for k, v in
+                result.items()]
 
     def get_most_valuable_inventory_items(self) -> list:
         result = []
@@ -395,19 +396,23 @@ class Controller:
             result.append((ingredients[next(
                 i for i, v in enumerate(ingredients) if v.id == ing)].name, value))
 
-        return sorted(result, key=lambda x: x[1])
+        result = list(sorted(result, key=lambda x: x[1], reverse=True))
+        return [{'name': v[0], 'value': v[1]} for v in
+                result]
 
-    def get_expired_inventory_items(self) -> dict:
+    def get_expired_inventory_items(self) -> list[dict]:
         result = {}
         ingredients = self._data_storage.get_all(Ingredient)
         items = self._data_storage.get_all(IngredientInventoryItem)
         for item in items:
             if datetime.datetime.strptime(item.expire_date, '%Y-%m-%d') < datetime.datetime.now():
                 result[ingredients[
-                    next(i for i, v in enumerate(ingredients) if v.id == item.ingredient_id)]] = item.expire_date
-        return result
+                    next(i for i, v in enumerate(ingredients) if v.id == item.ingredient_id)].name] = (
+                    item.id, item.expire_date)
+        return [{'id': v[0], 'name': k, 'expire_date': v[1]} for k, v in
+                result.items()]
 
-    def get_duration_of_stay_in_inventory(self) -> dict:
+    def get_duration_of_stay_in_inventory(self) -> list[dict]:
         result = {}
         ingredients = self._data_storage.get_all(Ingredient)
         items = self._data_storage.get_all(IngredientInventoryItem)
@@ -415,6 +420,21 @@ class Controller:
             timedelta = (datetime.datetime.now() - datetime.datetime.strptime(item.entrance_date, '%Y-%m-%d'))
             result[ingredients[
                 next(
-                    i for i, v in enumerate(ingredients) if v.id == item.ingredient_id)].name] = f"{timedelta.days} روز"
-        return result
+                    i for i, v in enumerate(ingredients) if v.id == item.ingredient_id)].name] = (
+                item.id, timedelta.days)
+        return [{'id': v[0], 'name': k, 'duration': v[1]} for k, v in
+                result.items()]
+
+    def get_count_inventory_items(self) -> list[dict]:
+        result = {}
+        ingredients = self._data_storage.get_all(Ingredient)
+        in_stock = {ing.id: 0 for ing in ingredients}
+        items = self._data_storage.get_all(IngredientInventoryItem)
+        for item in items:
+            in_stock[item.ingredient_id] += item.quantity
+        for ing, count in in_stock.items():
+            result[ingredients[next(
+                i for i, v in enumerate(ingredients) if v.id == ing)].name] = count
+        return [{'name': k, 'quantity': v} for k, v in
+                result.items()]
     # -------------------------------------------------------#

@@ -1,7 +1,7 @@
 from customtkinter import CTkFrame, CTkLabel, CTkButton
 from typing import Type
 
-from app.view.pages.components import Table, DeleteDialog
+from app.view.pages.components import TableWithEditDelete, DeleteDialog
 from app.view.context import Context
 from .form_interface import IForm
 
@@ -36,9 +36,9 @@ class IDataView(CTkFrame):
                                      command=self._show_input_modal)
         self._add_button.pack()
 
-        self._table = Table(self.data, self._columns, master=self, width=self.winfo_width(),
-                            height=self.winfo_height(), delete_callback=self._show_delete_modal,
-                            update_callback=self._show_update_modal)
+        self._table = TableWithEditDelete(self.data, self._columns, master=self, width=self.winfo_width(),
+                                          height=self.winfo_height(), delete_callback=self._show_delete_modal,
+                                          update_callback=self._show_update_modal)
         self._table.pack(pady=10, padx=10, fill="both", expand=True)
 
         # Report buttons
@@ -49,9 +49,9 @@ class IDataView(CTkFrame):
         self.data = self._context[self._name_in_context]
         self._table.pack_forget()
         self._report_frame.pack_forget()
-        self._table = Table(self.data, self._columns, master=self, width=self.winfo_width(),
-                            height=self.winfo_height(), delete_callback=self._show_delete_modal,
-                            update_callback=self._show_update_modal)
+        self._table = TableWithEditDelete(self.data, self._columns, master=self, width=self.winfo_width(),
+                                          height=self.winfo_height(), delete_callback=self._show_delete_modal,
+                                          update_callback=self._show_update_modal)
         self._table.pack(pady=10, padx=10, fill="both", expand=True)
         self._report_frame.pack(pady=10, fill="x")
 
