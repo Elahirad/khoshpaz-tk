@@ -19,7 +19,7 @@ class ManageFoods(CTkFrame):
             master=self, text="مدیریت غذاها", font=("B Koodak Bold", 25)
         ).pack(fill="x", anchor="center", pady=10)
 
-        self.__columns = [('name', 'نام'), ('parts', 'اجزا')]
+        self.__columns = [('name', 'نام'), ('parts', 'اجزا'), ('price', 'قیمت')]
 
         def show_input_modal():
             self.__input_window = FoodInputForm(self.__add_callback)
