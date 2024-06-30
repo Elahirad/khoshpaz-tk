@@ -1,8 +1,7 @@
-from customtkinter import CTkFrame, CTkLabel, CTkButton
+from customtkinter import CTkButton
 
 from app.view.constants import normal_text_font
-from app.view.pages.components import Table, DeleteDialog, IDataView
-from app.view.context import Context
+from app.view.pages.components import IDataView
 from .customer_form import CustomerForm
 
 

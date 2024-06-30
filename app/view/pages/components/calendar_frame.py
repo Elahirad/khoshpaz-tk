@@ -14,14 +14,14 @@ class CalendarFrame(CTkToplevel):
         self.resizable(False, False)
         self.geometry("400x300")
 
-        self.__callback = callback
-        self.__cal = Calendar(self, selectmode='day', year=default_date.year,
-                              month=default_date.month, day=default_date.day)
-        self.__cal.pack(pady=20)
-        self.__btn = CTkButton(self, text='ثبت', font=normal_text_font, command=self.__submit)
-        self.__btn.pack()
+        self._callback = callback
+        self._cal = Calendar(self, selectmode='day', year=default_date.year,
+                             month=default_date.month, day=default_date.day)
+        self._cal.pack(pady=20)
+        self._btn = CTkButton(self, text='ثبت', font=normal_text_font, command=self._submit)
+        self._btn.pack()
 
-    def __submit(self) -> None:
-        date = self.__cal.selection_get()
-        self.__callback(date)
+    def _submit(self) -> None:
+        date = self._cal.selection_get()
+        self._callback(date)
         self.destroy()

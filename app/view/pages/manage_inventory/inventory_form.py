@@ -13,8 +13,6 @@ class InventoryForm(IForm):
         self._ingredients = [i for i in self._context['ingredients']]
         self._ingredient_names = [i['name'] for i in self._context['ingredients']]
 
-        print(self._ingredients)
-
         self._ingredient_combobox_var = StringVar(
             value='' if len(self._ingredients) == 0 else self._ingredients[
                 next((i for i, v in enumerate(self._ingredients) if v['id'] == self._current_values['ingredient_id']),
