@@ -23,13 +23,13 @@ class CSVStorage(IDataStorage):
         if not os.path.exists(file_path):
             return []
 
-        with open(file_path, 'r', newline='') as csvfile:
+        with open(file_path, 'r', newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             return [row for row in reader]
 
     def __save_data(self, model_name: str, data: List[Dict[str, Any]]) -> None:
         file_path = self.__get_file_path(model_name)
-        with open(file_path, 'w', newline='') as csvfile:
+        with open(file_path, 'w', newline='', encoding='utf-8') as csvfile:
             if data:
                 writer = csv.DictWriter(csvfile, fieldnames=data[0].keys())
                 writer.writeheader()
@@ -95,4 +95,6 @@ class CSVStorage(IDataStorage):
             return float(value)
         elif field_type == list:
             return eval(value)
-        return value
+        elif field_type == str:
+            return value
+        return eval(value)
