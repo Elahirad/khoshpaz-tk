@@ -2,16 +2,16 @@ from typing import Callable
 
 from customtkinter import CTkFrame, CTkScrollableFrame, CTkLabel
 
-from app.view.pages.components.row import Row
+from app.view.pages.components.editable_deletable_row import EditableDeletableRow
 
 
-class Table(CTkFrame):
+class TableWithEditDelete(CTkFrame):
     def __init__(self, items: list[dict], columns: list[tuple[str, str]], delete_callback: Callable,
                  update_callback: Callable, *args, **kw) -> None:
         super().__init__(*args, **kw)
         self._items: list[dict] = items
         self._columns = columns
-        self._rows: list[Row] = []
+        self._rows: list[EditableDeletableRow] = []
         self._delete_callback = delete_callback
         self._update_callback = update_callback
 
@@ -38,7 +38,8 @@ class Table(CTkFrame):
     def _build_rows(self, items: list[dict]) -> None:
         self._items = items
         for itemIdx, item in enumerate(self._items):
-            row = Row(item, self._columns, master=self._scrollable_frame, delete_callback=self._delete_callback,
-                      update_callback=self._update_callback)
+            row = EditableDeletableRow(item, self._columns, master=self._scrollable_frame,
+                                       delete_callback=self._delete_callback,
+                                       update_callback=self._update_callback)
             row.pack(fill="x")
             self._rows.append(row)

@@ -5,7 +5,7 @@ from customtkinter import CTkFrame, CTkLabel, CTkButton, ThemeManager
 from app.view.constants import normal_text_font
 
 
-class Row(CTkFrame):
+class EditableDeletableRow(CTkFrame):
     def __init__(self, item: dict, columns: list[tuple[str, str]], delete_callback: Callable,
                  update_callback: Callable,
                  *args, **kwargs) -> None:
