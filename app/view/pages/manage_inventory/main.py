@@ -1,10 +1,9 @@
 from customtkinter import CTkFrame, CTkLabel, CTkButton
 from app.view.constants import normal_text_font
-from app.view.pages.components import Table
+from app.view.pages.components import Table, DeleteDialog
 from app.view.context import Context
 from .inventory_input_form import InventoryInputForm
 from .inventory_update_form import InventoryUpdateForm
-from .inventory_delete import InventoryDelete
 
 
 class ManageInventory(CTkFrame):
@@ -76,7 +75,7 @@ class ManageInventory(CTkFrame):
             if confirmed:
                 self.__context.controller.remove_inventory_item(item_id)
 
-        self.__delete_window = InventoryDelete(delete)
+        self.__delete_window = DeleteDialog('حذف ماده از انبار ؟', delete)
         self.__delete_window.grab_set()
 
     def __update_callback(self, item: dict):

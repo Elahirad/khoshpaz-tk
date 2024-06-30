@@ -1,11 +1,10 @@
 from customtkinter import CTkFrame, CTkLabel, CTkButton
 
 from app.view.constants import normal_text_font
-from app.view.pages.components import Table
+from app.view.pages.components import Table, DeleteDialog
 from app.view.context import Context
 from .part_input_form import PartInputForm
 from .part_update_form import PartUpdateForm
-from .part_delete import PartDelete
 
 
 class ManageParts(CTkFrame):
@@ -74,7 +73,7 @@ class ManageParts(CTkFrame):
             if confirmed:
                 self.__context.controller.remove_part(item_id)
 
-        self.__delete_window = PartDelete(delete)
+        self.__delete_window = DeleteDialog('حذف جزء غذا ؟', delete)
         self.__delete_window.grab_set()
 
     def __update_callback(self, item: dict):
