@@ -1,5 +1,5 @@
 from app.view.interface import IView
-from app.model import IDataStorage
+from app.model import IDataStorage, Customer
 from app.model import Ingredient, Part
 
 
@@ -94,6 +94,44 @@ class Controller:
         part = self.data_storage.get(Part, item_id)
         if part:
             self.data_storage.remove(Part, item_id)
+            self.view.show_message('موفق', 'با موفقیت حذف شد', 'check')
+            self.view.reload_app_data()
+            return True
+        else:
+            self.view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
+            return False
+
+    def get_customers(self, customer_id: int = None) -> list[dict] | dict:
+        if customer_id:
+            customer = self.data_storage.get(Customer, customer_id)
+            if customer:
+                return customer.__dict__
+            self.view.show_message("خطا", "مشتری مورد نظر یافت نشد", icon="cancel")
+        return list(map(lambda o: o.__dict__, self.data_storage.get_all(Customer)))
+
+    def add_customer(self, name: str, last_name: str) -> dict:
+        customer = Customer(1, name, last_name)
+        customer = self.data_storage.add(customer).__dict__
+        self.view.show_message('موفق', 'با موفقیت اضافه شد', 'check')
+        self.view.reload_app_data()
+        return customer
+
+    def update_customer(self, customer_id: int, name: str, last_name: str) -> dict:
+        customer = self.data_storage.get(Customer, customer_id)
+        if customer:
+            customer.name = name
+            customer.last_name = last_name
+            customer = self.data_storage.update(customer)
+            self.view.show_message('موفق', 'با موفقیت آپدیت شد', 'check')
+            self.view.reload_app_data()
+            return customer.__dict__
+        else:
+            self.view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
+
+    def remove_customer(self, customer_id: int) -> bool:
+        customer = self.data_storage.get(Customer, customer_id)
+        if customer:
+            self.data_storage.remove(Customer, customer_id)
             self.view.show_message('موفق', 'با موفقیت حذف شد', 'check')
             self.view.reload_app_data()
             return True

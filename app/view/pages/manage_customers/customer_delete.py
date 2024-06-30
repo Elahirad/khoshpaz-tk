@@ -3,7 +3,7 @@ from typing import Callable
 from customtkinter import CTkLabel, CTkButton, CTkToplevel
 
 
-class IngredientDelete(CTkToplevel):
+class CustomerDelete(CTkToplevel):
     def __init__(self, callback: Callable, master=None, *args, **kwargs) -> None:
         super().__init__(master=master, *args, **kwargs)
         self.geometry("400x300")
@@ -11,7 +11,7 @@ class IngredientDelete(CTkToplevel):
 
         self.__callback = callback
         CTkLabel(
-            master=self, text="حذف ماده اولیه ؟", font=("B Koodak Bold", 25)
+            master=self, text="حذف مشتری ؟", font=("B Koodak Bold", 25)
         ).pack(fill="x", anchor="center", pady=10)
 
         CTkButton(self, text="حذف", font=('B Koodak Bold', 25), command=lambda: self.__submit(True)).pack(pady=20,

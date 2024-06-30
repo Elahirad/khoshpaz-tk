@@ -6,9 +6,9 @@ from app.view.pages import (
     ManageFoods,
     ManageParts,
     ManageOrders,
-    ManageInventory,
-    ManageCustomers
+    ManageInventory
 )
+from app.view.pages.manage_customers.main import ManageCustomers
 
 from app.view.context import Context
 
