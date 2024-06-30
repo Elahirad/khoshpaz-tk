@@ -28,6 +28,7 @@ class AppView(CTk, IView):
         self.__context = Context()
         self.__context['mode'] = MANAGE_ORDERS
         self.__context['ingredients'] = []
+        self.__context['parts'] = []
         # Geometry
         self.geometry("950x700")
         self.resizable(False, False)
@@ -67,4 +68,5 @@ class AppView(CTk, IView):
         if self.__context.controller is None:
             self.__context.controller = self.controller
         ingredients = self.controller.get_ingredients()
-        self.__context['ingredients'] = ingredients
+        parts = self.controller.get_parts()
+        self.__context.bulk_update({'ingredients': ingredients, 'parts': parts})

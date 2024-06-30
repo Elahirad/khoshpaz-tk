@@ -17,6 +17,12 @@ class Context:
     def remove_callback(self, callback: Callable) -> None:
         self.__callbacks.remove(callback)
 
+    def bulk_update(self, data: dict):
+        for key, value in data.items():
+            self.__data[key] = value
+
+        self.__notify_callbacks()
+
     def __setitem__(self, key, value):
         self.__data[key] = value
         self.__notify_callbacks()
