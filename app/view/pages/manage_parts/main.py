@@ -9,7 +9,7 @@ class ManageParts(IDataView):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__('parts', 'جزء غذا', 'اجزاء غذا', [('name', 'نام'), ('ingredients', 'مواد اولیه')],
                          {'id': 0, 'name': '', 'ingredients': [],
-                          'ingredients_raw': {'برنج': '0.2'}}, PartForm, *args, **kwargs)
+                          'ingredients_raw': {}}, PartForm, *args, **kwargs)
 
         self._report_button1 = CTkButton(master=self._report_frame, text="۱ گزارش", command=self._report1,
                                          font=normal_text_font)
