@@ -1,3 +1,5 @@
+import datetime
+
 from app.view.interface import IView
 from app.model import IDataStorage
 from app.model import Ingredient, Part, Food, Customer, Order, IngredientInventoryItem
@@ -10,6 +12,7 @@ class Controller:
         self._data_storage = data_storage
         self._view.reload_app_data()
 
+    # --------------------- Ingredients ---------------------#
     def get_ingredients(self, item_id: int = None) -> list[dict] | dict:
         if item_id:
             return self._data_storage.get(Ingredient, item_id).__dict__
@@ -53,6 +56,9 @@ class Controller:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
             return False
 
+    # -------------------------------------------------------#
+
+    # ------------------------ Parts ------------------------#
     def get_parts(self, item_id: int = None) -> list[dict] | dict:
         if item_id:
             part = self._data_storage.get(Part, item_id).__dict__
@@ -118,6 +124,9 @@ class Controller:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
             return False
 
+    # -------------------------------------------------------#
+
+    # ---------------------- Customers ----------------------#
     def get_customers(self, customer_id: int = None) -> list[dict] | dict:
         if customer_id:
             customer = self._data_storage.get(Customer, customer_id)
@@ -163,6 +172,9 @@ class Controller:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
             return False
 
+    # -------------------------------------------------------#
+
+    # ------------------------ Foods ------------------------#
     def get_foods(self, item_id: int = None) -> list[dict] | dict:
         if item_id:
             food = self._data_storage.get(Food, item_id).__dict__
@@ -229,6 +241,9 @@ class Controller:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
             return False
 
+    # -------------------------------------------------------#
+
+    # ------------------------ Orders -----------------------#
     def get_orders(self, item_id: int = None) -> list[dict] | dict:
         if item_id:
             order = self._data_storage.get(Order, item_id).__dict__
@@ -301,6 +316,9 @@ class Controller:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
             return False
 
+    # -------------------------------------------------------#
+
+    # ------------------- Inventory Items -------------------#
     def get_inventory_items(self, item_id: int = None) -> list[dict] | dict:
         if item_id:
             inventory_item = self._data_storage.get(IngredientInventoryItem, item_id).__dict__
@@ -352,3 +370,51 @@ class Controller:
         else:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
             return False
+
+    def get_critical_inventory_items(self) -> dict:
+        result = {}
+        ingredients = self._data_storage.get_all(Ingredient)
+        in_stock = {ing.id: 0 for ing in ingredients}
+        items = self._data_storage.get_all(IngredientInventoryItem)
+        for item in items:
+            in_stock[item.ingredient_id] += item.quantity
+        for ing, count in in_stock.items():
+            if count < 10:
+                result[ingredients[next(
+                    i for i, v in enumerate(ingredients) if v.id == ing)].name] = 'ناموجود' if count == 0 else count
+        return result
+
+    def get_most_valuable_inventory_items(self) -> list:
+        result = []
+        ingredients = self._data_storage.get_all(Ingredient)
+        values = {ing.id: 0 for ing in ingredients}
+        items = self._data_storage.get_all(IngredientInventoryItem)
+        for item in items:
+            values[item.ingredient_id] += item.quantity * item.price
+        for ing, value in values.items():
+            result.append((ingredients[next(
+                i for i, v in enumerate(ingredients) if v.id == ing)].name, value))
+
+        return sorted(result, key=lambda x: x[1])
+
+    def get_expired_inventory_items(self) -> dict:
+        result = {}
+        ingredients = self._data_storage.get_all(Ingredient)
+        items = self._data_storage.get_all(IngredientInventoryItem)
+        for item in items:
+            if datetime.datetime.strptime(item.expire_date, '%Y-%m-%d') < datetime.datetime.now():
+                result[ingredients[
+                    next(i for i, v in enumerate(ingredients) if v.id == item.ingredient_id)]] = item.expire_date
+        return result
+
+    def get_duration_of_stay_in_inventory(self) -> dict:
+        result = {}
+        ingredients = self._data_storage.get_all(Ingredient)
+        items = self._data_storage.get_all(IngredientInventoryItem)
+        for item in items:
+            timedelta = (datetime.datetime.now() - datetime.datetime.strptime(item.entrance_date, '%Y-%m-%d'))
+            result[ingredients[
+                next(
+                    i for i, v in enumerate(ingredients) if v.id == item.ingredient_id)].name] = f"{timedelta.days} روز"
+        return result
+    # -------------------------------------------------------#
