@@ -1,6 +1,6 @@
 from app.view.interface import IView
-from app.model import IDataStorage, Customer
-from app.model import Ingredient, Part
+from app.model import IDataStorage
+from app.model import Ingredient, Part, Food, Customer
 
 
 class Controller:
@@ -132,6 +132,64 @@ class Controller:
         customer = self.data_storage.get(Customer, customer_id)
         if customer:
             self.data_storage.remove(Customer, customer_id)
+            self.view.show_message('موفق', 'با موفقیت حذف شد', 'check')
+            self.view.reload_app_data()
+            return True
+        else:
+            self.view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
+            return False
+
+    def get_foods(self, item_id: int = None) -> list[dict] | dict:
+        if item_id:
+            food = self.data_storage.get(Food, item_id).__dict__
+            parts = food['parts']
+            parts_raw = {}
+            new_parts = []
+            for ing_id, amount in parts.items():
+                part = self.get_parts(int(ing_id))
+                parts_raw[part['name']] = amount
+                new_parts.append(f"{part['name']}: {amount} {part['unit']}")
+            food['parts'] = new_parts
+            food['parts_raw'] = parts_raw
+            return food
+        foods = list(map(lambda o: o.__dict__, self.data_storage.get_all(Food)))
+        for idx, food in enumerate(foods):
+            parts = food['parts']
+            parts_raw = {}
+            new_parts = []
+            for part_id, amount in parts.items():
+                part = self.get_parts(int(part_id))
+                parts_raw[part['name']] = amount
+                new_parts.append(f"{part['name']}: {amount}")
+            food['parts'] = new_parts
+            food['parts_raw'] = parts_raw
+        return foods
+
+    def add_food(self, name: str, price: float, parts: dict[int, int]):
+        food = Food(1, name, price, parts)
+        food = self.data_storage.add(food).__dict__
+        self.view.show_message('موفق', 'با موفقیت اضافه شد', 'check')
+        self.view.reload_app_data()
+        return food
+
+    def update_food(self, item_id: int, name: str, price: float, parts: dict[int, int]) -> dict:
+
+        food = self.data_storage.get(Food, item_id)
+        if food:
+            food.name = name
+            food.price = price
+            food.parts = parts
+            food = self.data_storage.update(food)
+            self.view.show_message('موفق', 'با موفقیت آپدیت شد', 'check')
+            self.view.reload_app_data()
+            return food.__dict__
+        else:
+            self.view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
+
+    def remove_food(self, item_id: int) -> bool:
+        food = self.data_storage.get(Food, item_id)
+        if food:
+            self.data_storage.remove(Food, item_id)
             self.view.show_message('موفق', 'با موفقیت حذف شد', 'check')
             self.view.reload_app_data()
             return True

@@ -30,6 +30,7 @@ class AppView(CTk, IView):
         self.__context['ingredients'] = []
         self.__context['parts'] = []
         self.__context['customers'] = []
+        self.__context['foods'] = []
         # Geometry
         self.geometry("950x700")
         self.resizable(False, False)
@@ -71,4 +72,5 @@ class AppView(CTk, IView):
         ingredients = self.controller.get_ingredients()
         parts = self.controller.get_parts()
         customers = self.controller.get_customers()
-        self.__context.bulk_update({'ingredients': ingredients, 'parts': parts, 'customers': customers})
+        foods = self.controller.get_foods()
+        self.__context.bulk_update({'ingredients': ingredients, 'parts': parts, 'customers': customers, 'foods': foods})
