@@ -4,11 +4,11 @@ from app.view.pages import (
     ManageIngredients,
     ManageEcoPacks,
     ManageParts,
+    ManageInventory,
     ManageOrders,
-    ManageInventory
+    ManageFoods,
+    ManageCustomers
 )
-from app.view.pages.manage_foods.main import ManageFoods
-from app.view.pages.manage_customers.main import ManageCustomers
 
 from app.view.context import Context
 

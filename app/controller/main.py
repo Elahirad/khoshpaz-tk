@@ -1,6 +1,6 @@
 from app.view.interface import IView
 from app.model import IDataStorage
-from app.model import Ingredient, Part, Food, Customer
+from app.model import Ingredient, Part, Food, Customer, Order
 
 
 class Controller:
@@ -148,7 +148,7 @@ class Controller:
             for ing_id, amount in parts.items():
                 part = self.get_parts(int(ing_id))
                 parts_raw[part['name']] = amount
-                new_parts.append(f"{part['name']}: {amount} {part['unit']}")
+                new_parts.append(f"{part['name']}: {amount}")
             food['parts'] = new_parts
             food['parts_raw'] = parts_raw
             return food
@@ -190,6 +190,78 @@ class Controller:
         food = self.data_storage.get(Food, item_id)
         if food:
             self.data_storage.remove(Food, item_id)
+            self.view.show_message('موفق', 'با موفقیت حذف شد', 'check')
+            self.view.reload_app_data()
+            return True
+        else:
+            self.view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
+            return False
+
+    def get_orders(self, item_id: int = None) -> list[dict] | dict:
+        if item_id:
+            order = self.data_storage.get(Order, item_id).__dict__
+            foods = order['foods']
+            foods_raw = {}
+            new_foods = []
+            for ing_id, amount in foods.items():
+                food = self.get_foods(int(ing_id))
+                foods_raw[food['name']] = amount
+                new_foods.append(f"{food['name']}: {amount}")
+            order['foods'] = new_foods
+            order['foods_raw'] = foods_raw
+            customer = self.get_customers(int(order['customer_id']))
+            order['customer'] = f"{customer['name']}: {customer['last_name']}"
+            order['status_raw'] = order['status']
+            order['status'] = 'تکمیل شده' if order['status'] else 'در حال آماده سازی'
+            return order
+        orders = list(map(lambda o: o.__dict__, self.data_storage.get_all(Order)))
+        for idx, order in enumerate(orders):
+            foods = order['foods']
+            foods_raw = {}
+            new_foods = []
+            for food_id, amount in foods.items():
+                food = self.get_foods(int(food_id))
+                foods_raw[food['name']] = amount
+                new_foods.append(f"{food['name']}: {amount}")
+            order['foods'] = new_foods
+            order['foods_raw'] = foods_raw
+            customer = self.get_customers(int(order['customer_id']))
+            order['customer'] = f"{customer['name']} {customer['last_name']}"
+            order['status_raw'] = order['status']
+            order['status'] = 'تکمیل شده' if order['status'] else 'در حال آماده سازی'
+        return orders
+
+    def add_order(self, customer_id: int, foods: dict[int, int], paid_amout: float, accept_time: str, status: int,
+                  preparation_time: float) -> dict:
+        order = Order(1, customer_id, foods, paid_amout, accept_time, status, preparation_time)
+        order = self.data_storage.add(order).__dict__
+        self.view.show_message('موفق', 'با موفقیت اضافه شد', 'check')
+        self.view.reload_app_data()
+        return order
+
+    def update_order(self, item_id: int, customer_id: int, foods: dict[int, int], paid_amout: float, accept_time: str,
+                     status: int,
+                     preparation_time: float) -> dict:
+
+        order = self.data_storage.get(Order, item_id)
+        if order:
+            order.customer_id = customer_id
+            order.paid_amount = paid_amout
+            order.accept_time = accept_time
+            order.status = status
+            order.preparation_time = preparation_time
+            order.foods = foods
+            order = self.data_storage.update(order)
+            self.view.show_message('موفق', 'با موفقیت آپدیت شد', 'check')
+            self.view.reload_app_data()
+            return order.__dict__
+        else:
+            self.view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
+
+    def remove_order(self, item_id: int) -> bool:
+        order = self.data_storage.get(Order, item_id)
+        if order:
+            self.data_storage.remove(Order, item_id)
             self.view.show_message('موفق', 'با موفقیت حذف شد', 'check')
             self.view.reload_app_data()
             return True
