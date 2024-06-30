@@ -1,5 +1,2 @@
-from .critical_inventory_items import CriticalInventoryItems
-from .valuable_inventory_items import ValuableInventoryItems
-from .expired_inventory_items import ExpiredInventoryItems
-from .duration_of_stay_inventory_items import DurationOfStayInventoryItems
-from .count_inventory_items import CountInventoryItems
+from .inventory_reports import *
+from .catering_reports import *

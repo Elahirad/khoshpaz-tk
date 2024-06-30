@@ -371,6 +371,10 @@ class Controller:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
             return False
 
+    # -------------------------------------------------------#
+
+    # --------------- Inventory Items Reports ---------------#
+
     def get_critical_inventory_items(self) -> list[dict]:
         result = {}
         ingredients = self._data_storage.get_all(Ingredient)
@@ -437,4 +441,60 @@ class Controller:
                 i for i, v in enumerate(ingredients) if v.id == ing)].name] = count
         return [{'name': k, 'quantity': v} for k, v in
                 result.items()]
+
     # -------------------------------------------------------#
+
+    # ------------------- Catering Reports ------------------#
+
+    def get_most_purchased_foods(self) -> list:
+        result = []
+        foods = self._data_storage.get_all(Food)
+        purchase_count = {food.id: 0 for food in foods}
+        orders = self._data_storage.get_all(Order)
+        for order in orders:
+            for food, amount in order.foods.items():
+                purchase_count[food] += int(amount)
+        for food, count in purchase_count.items():
+            result.append((foods[next(
+                i for i, v in enumerate(foods) if v.id == food)].name, count))
+
+        result = list(sorted(result, key=lambda x: x[1], reverse=True))
+        return [{'name': v[0], 'count': v[1]} for v in
+                result]
+
+    def get_pending_orders(self) -> list[dict]:
+        orders = self._data_storage.get_all(Order)
+        customers = self._data_storage.get_all(Customer)
+        pending_orders = []
+        for order in orders:
+            if order.status == 0:
+                order = order.__dict__
+                customer = customers[next(i for i, v in enumerate(customers))]
+                order['customer'] = f"{customer.name} {customer.last_name}"
+                pending_orders.append(order)
+
+        return pending_orders
+
+    def get_most_valuable_customers(self) -> list[dict]:
+        result = []
+        customers = self._data_storage.get_all(Customer)
+        purchases = {c.id: 0 for c in customers}
+        orders = self._data_storage.get_all(Order)
+        for order in orders:
+            purchases[order.customer_id] += order.paid_amount
+        for customer_id, paid_amount in purchases.items():
+            customer = customers[next(i for i, v in enumerate(customers) if v.id == customer_id)]
+            result.append((f"{customer.name} {customer.last_name}", paid_amount))
+        result = list(sorted(result, key=lambda x: x[1], reverse=True))
+        return [{'name': v[0], 'paid_amount': v[1]} for v in
+                result]
+
+    def get_current_month_income(self) -> float:
+        orders = self._data_storage.get_all(Order)
+        income = 0.0
+        timedelta = datetime.timedelta(days=30)
+        for order in orders:
+            placed_date = datetime.datetime.strptime(order.accept_time, '%Y-%m-%d')
+            if placed_date > datetime.datetime.now() - timedelta:
+                income += order.paid_amount
+        return income
