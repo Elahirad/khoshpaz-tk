@@ -80,3 +80,17 @@ class AppView(CTk, IView):
         self._context.bulk_update(
             {'ingredients': ingredients, 'parts': parts, 'customers': customers, 'foods': foods, 'orders': orders,
              'inventory': inventory})
+
+    def reload_data(self, context_indexes: list[str]):
+        if 'ingredients' in context_indexes:
+            self._context['ingredients'] = self.controller.get_ingredients()
+        if 'parts' in context_indexes:
+            self._context['parts'] = self.controller.get_parts()
+        if 'customers' in context_indexes:
+            self._context['customers'] = self.controller.get_customers()
+        if 'foods' in context_indexes:
+            self._context['foods'] = self.controller.get_foods()
+        if 'orders' in context_indexes:
+            self._context['orders'] = self.controller.get_orders()
+        if 'inventory' in context_indexes:
+            self._context['inventory'] = self.controller.get_inventory_items()

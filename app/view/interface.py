@@ -10,3 +10,6 @@ class IView(ABC):
 
     @abstractmethod
     def reload_app_data(self): pass
+
+    @abstractmethod
+    def reload_data(self, context_indexes: list[str]): pass
