@@ -63,4 +63,4 @@ class Order:
 class Customer:
     id: int
     name: str
-    orders: list[int]  # list[order_id]
+    last_name: str
