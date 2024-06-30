@@ -18,7 +18,7 @@ class FoodUpdateForm(CTkToplevel):
 
         self.__callback = callback
         CTkLabel(
-            master=self, text="افزودن غذا", font=("B Koodak Bold", 25)
+            master=self, text="ویرایش غذا", font=("B Koodak Bold", 25)
         ).pack(fill="x", anchor="center", pady=10)
 
         CTkLabel(self, text="نام", font=normal_text_font).pack()

@@ -11,7 +11,7 @@ class FoodDelete(CTkToplevel):
 
         self.__callback = callback
         CTkLabel(
-            master=self, text="حذف جزء غذا ؟", font=("B Koodak Bold", 25)
+            master=self, text="حذف غذا ؟", font=("B Koodak Bold", 25)
         ).pack(fill="x", anchor="center", pady=10)
 
         CTkButton(self, text="حذف", font=('B Koodak Bold', 25), command=lambda: self.__submit(True)).pack(pady=20,
