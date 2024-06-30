@@ -53,11 +53,11 @@ class EcoPack:
 class Order:
     id: int
     customer_id: int
-    foods: list[int]  # list[food_id]
-    price: float
+    foods: dict[int, int]  # dict[food_id, amount]
+    paid_amount: float
     accept_time: str
     status: int  # 0 for pending and 1 for completed
-    preparation_time: int  # Seconds
+    preparation_time: float  # Hours
 
 
 @dataclass
