@@ -18,12 +18,17 @@ class Row(CTkFrame):
         self.grid_columnconfigure((0, 1), weight=1)
 
         for colIdx, col in enumerate(reversed(self.__columns)):
-            label = CTkLabel(master=self, text=self.__data[col[0]], font=normal_text_font, anchor='e')
-            label.grid(row=0, column=colIdx + 2)
+            if isinstance(self.__data[col[0]], list):
+                for rowIdx, row in enumerate(self.__data[col[0]]):
+                    label = CTkLabel(master=self, text=row, font=normal_text_font, anchor='e')
+                    label.grid(row=rowIdx, column=colIdx + 2)
+            else:
+                label = CTkLabel(master=self, text=self.__data[col[0]], font=normal_text_font, anchor='e')
+                label.grid(row=0, column=colIdx + 2)
 
         delete_button = CTkButton(master=self, text="حذف", command=lambda: delete_callback(self.__data['id']),
                                   font=normal_text_font, width=50)
         delete_button.grid(row=0, column=0)
-        delete_button = CTkButton(master=self, text="ویرایش", command=lambda: update_callback(self.__data),
+        update_button = CTkButton(master=self, text="ویرایش", command=lambda: update_callback(self.__data),
                                   font=normal_text_font, width=50)
-        delete_button.grid(row=0, column=1)
+        update_button.grid(row=0, column=1)

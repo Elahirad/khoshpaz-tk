@@ -30,7 +30,7 @@ class IngredientInventoryItem:
 class Part:
     id: int
     name: str
-    ingredients: list[dict[int, float]]  # list[dict[ingredient_id, float]
+    ingredients: dict[int, float]  # list[dict[ingredient_id, float]
 
 
 @dataclass
