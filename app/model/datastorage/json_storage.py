@@ -14,7 +14,7 @@ class JSONStorage(IDataStorage):
 
     def _load(self):
         try:
-            with open(self._filename, 'r') as file:
+            with open(self._filename, 'r', encoding='utf-8') as file:
                 self._data = json.load(file)
                 # Initialize next_id for each model from loaded data
                 for model_name, items in self._data.items():
@@ -23,7 +23,7 @@ class JSONStorage(IDataStorage):
             self._data = {}
 
     def _save(self):
-        with open(self._filename, 'w') as file:
+        with open(self._filename, 'w', encoding='utf-8') as file:
             json.dump(self._data, file, default=lambda o: o.__dict__)
 
     def _get_next_id(self, model_name: str) -> int:

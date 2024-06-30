@@ -453,7 +453,7 @@ class Controller:
         orders = self._data_storage.get_all(Order)
         for order in orders:
             for food, amount in order.foods.items():
-                purchase_count[food] += int(amount)
+                purchase_count[int(food)] += int(amount)
         for food, count in purchase_count.items():
             result.append((foods[next(
                 i for i, v in enumerate(foods) if v.id == food)].name, count))
