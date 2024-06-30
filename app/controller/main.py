@@ -1,6 +1,6 @@
 from app.view.interface import IView
 from app.model import IDataStorage
-from app.model import Ingredient, Part, Food, Customer, Order
+from app.model import Ingredient, Part, Food, Customer, Order, IngredientInventoryItem
 
 
 class Controller:
@@ -231,22 +231,22 @@ class Controller:
             order['status'] = 'تکمیل شده' if order['status'] else 'در حال آماده سازی'
         return orders
 
-    def add_order(self, customer_id: int, foods: dict[int, int], paid_amout: float, accept_time: str, status: int,
+    def add_order(self, customer_id: int, foods: dict[int, int], paid_amount: float, accept_time: str, status: int,
                   preparation_time: float) -> dict:
-        order = Order(1, customer_id, foods, paid_amout, accept_time, status, preparation_time)
+        order = Order(1, customer_id, foods, paid_amount, accept_time, status, preparation_time)
         order = self.data_storage.add(order).__dict__
         self.view.show_message('موفق', 'با موفقیت اضافه شد', 'check')
         self.view.reload_app_data()
         return order
 
-    def update_order(self, item_id: int, customer_id: int, foods: dict[int, int], paid_amout: float, accept_time: str,
+    def update_order(self, item_id: int, customer_id: int, foods: dict[int, int], paid_amount: float, accept_time: str,
                      status: int,
                      preparation_time: float) -> dict:
 
         order = self.data_storage.get(Order, item_id)
         if order:
             order.customer_id = customer_id
-            order.paid_amount = paid_amout
+            order.paid_amount = paid_amount
             order.accept_time = accept_time
             order.status = status
             order.preparation_time = preparation_time
@@ -262,6 +262,58 @@ class Controller:
         order = self.data_storage.get(Order, item_id)
         if order:
             self.data_storage.remove(Order, item_id)
+            self.view.show_message('موفق', 'با موفقیت حذف شد', 'check')
+            self.view.reload_app_data()
+            return True
+        else:
+            self.view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
+            return False
+
+    def get_inventory_items(self, item_id: int = None) -> list[dict] | dict:
+        if item_id:
+            inventory_item = self.data_storage.get(IngredientInventoryItem, item_id).__dict__
+            ingredient_id = inventory_item['ingredient_id']
+            ingredient = self.get_ingredients(int(ingredient_id))
+            inventory_item['ingredient'] = ingredient['name']
+            return inventory_item
+        inventory_items = list(map(lambda o: o.__dict__, self.data_storage.get_all(IngredientInventoryItem)))
+        for inventory_item in inventory_items:
+            ingredient_id = inventory_item['ingredient_id']
+            ingredient = self.get_ingredients(int(ingredient_id))
+            inventory_item['ingredient'] = ingredient['name']
+        return inventory_items
+
+    def add_inventory_item(self, ingredient_id: int, quantity: float, price: float, entrance_data: str,
+                           manufacture_date: str, expire_data: str) -> dict:
+        inventory_item = IngredientInventoryItem(1, ingredient_id, quantity, price, entrance_data,
+                                                 manufacture_date, expire_data)
+        inventory_item = self.data_storage.add(inventory_item).__dict__
+        self.view.show_message('موفق', 'با موفقیت اضافه شد', 'check')
+        self.view.reload_app_data()
+        return inventory_item
+
+    def update_inventory_item(self, item_id: int, ingredient_id: int, quantity: float, price: float, entrance_date: str,
+                              manufacture_date: str, expire_date: str) -> dict:
+
+        inventory_item = self.data_storage.get(IngredientInventoryItem, item_id)
+        if inventory_item:
+            inventory_item.ingredient_id = ingredient_id
+            inventory_item.quantity = quantity
+            inventory_item.price = price
+            inventory_item.entrance_date = entrance_date
+            inventory_item.manufacture_date = manufacture_date
+            inventory_item.expire_date = expire_date
+            inventory_item = self.data_storage.update(inventory_item)
+            self.view.show_message('موفق', 'با موفقیت آپدیت شد', 'check')
+            self.view.reload_app_data()
+            return inventory_item.__dict__
+        else:
+            self.view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
+
+    def remove_inventory_item(self, item_id: int) -> bool:
+        inventory_item = self.data_storage.get(IngredientInventoryItem, item_id)
+        if inventory_item:
+            self.data_storage.remove(IngredientInventoryItem, item_id)
             self.view.show_message('موفق', 'با موفقیت حذف شد', 'check')
             self.view.reload_app_data()
             return True
