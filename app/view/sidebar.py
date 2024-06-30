@@ -21,7 +21,7 @@ class SideBar(CTkFrame):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self._context = Context()
-        self._context.add_callback(self._switch_ui_mode)
+        self._context.add_callback(self._switch_ui_mode, 'mode')
 
         logo_image_data = Image.open("./app/view/assets/logo.png")
         logo_image = CTkImage(

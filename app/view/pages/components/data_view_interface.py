@@ -17,7 +17,7 @@ class IDataView(CTkFrame):
         self._singular_name = singular_name
         self._plural_name = plural_name
         self._context = Context()
-        self._context.add_callback(self._update_table)
+        self._context.add_callback(self._update_table, self._name_in_context)
         self.data = self._context[self._name_in_context]
 
         CTkLabel(

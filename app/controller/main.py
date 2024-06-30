@@ -22,7 +22,7 @@ class Controller:
         ing = Ingredient(1, name, unit)
         ing = self._data_storage.add(ing).__dict__
         self._view.show_message('موفق', 'با موفقیت اضافه شد', 'check')
-        self._view.reload_app_data()
+        self._view.reload_data(['ingredients'])
         return ing
 
     def update_ingredient(self, item_id: int, name: str, unit: str) -> dict:
@@ -32,7 +32,7 @@ class Controller:
             ingredient.unit = unit
             ingredient = self._data_storage.update(ingredient)
             self._view.show_message('موفق', 'با موفقیت آپدیت شد', 'check')
-            self._view.reload_app_data()
+            self._view.reload_data(['ingredients'])
             return ingredient.__dict__
         else:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
@@ -50,7 +50,7 @@ class Controller:
                         return False
             self._data_storage.remove(Ingredient, item_id)
             self._view.show_message('موفق', 'با موفقیت حذف شد', 'check')
-            self._view.reload_app_data()
+            self._view.reload_data(['ingredients'])
             return True
         else:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
@@ -89,7 +89,7 @@ class Controller:
         part = Part(1, name, ingredients)
         part = self._data_storage.add(part).__dict__
         self._view.show_message('موفق', 'با موفقیت اضافه شد', 'check')
-        self._view.reload_app_data()
+        self._view.reload_data(['parts'])
         return part
 
     def update_part(self, item_id: int, name: str, ingredients: dict[int, float]) -> dict:
@@ -99,7 +99,7 @@ class Controller:
             part.ingredients = ingredients
             part = self._data_storage.update(part)
             self._view.show_message('موفق', 'با موفقیت آپدیت شد', 'check')
-            self._view.reload_app_data()
+            self._view.reload_data(['parts'])
             return part.__dict__
         else:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
@@ -118,7 +118,7 @@ class Controller:
 
             self._data_storage.remove(Part, item_id)
             self._view.show_message('موفق', 'با موفقیت حذف شد', 'check')
-            self._view.reload_app_data()
+            self._view.reload_data(['parts'])
             return True
         else:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
@@ -139,7 +139,7 @@ class Controller:
         customer = Customer(1, name, last_name)
         customer = self._data_storage.add(customer).__dict__
         self._view.show_message('موفق', 'با موفقیت اضافه شد', 'check')
-        self._view.reload_app_data()
+        self._view.reload_data(['customers'])
         return customer
 
     def update_customer(self, customer_id: int, name: str, last_name: str) -> dict:
@@ -149,7 +149,7 @@ class Controller:
             customer.last_name = last_name
             customer = self._data_storage.update(customer)
             self._view.show_message('موفق', 'با موفقیت آپدیت شد', 'check')
-            self._view.reload_app_data()
+            self._view.reload_data(['customers'])
             return customer.__dict__
         else:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
@@ -166,7 +166,7 @@ class Controller:
                     return False
             self._data_storage.remove(Customer, customer_id)
             self._view.show_message('موفق', 'با موفقیت حذف شد', 'check')
-            self._view.reload_app_data()
+            self._view.reload_data(['customers'])
             return True
         else:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
@@ -205,7 +205,7 @@ class Controller:
         food = Food(1, name, price, parts)
         food = self._data_storage.add(food).__dict__
         self._view.show_message('موفق', 'با موفقیت اضافه شد', 'check')
-        self._view.reload_app_data()
+        self._view.reload_data(['foods'])
         return food
 
     def update_food(self, item_id: int, name: str, price: float, parts: dict[int, int]) -> dict:
@@ -217,7 +217,7 @@ class Controller:
             food.parts = parts
             food = self._data_storage.update(food)
             self._view.show_message('موفق', 'با موفقیت آپدیت شد', 'check')
-            self._view.reload_app_data()
+            self._view.reload_data(['foods'])
             return food.__dict__
         else:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
@@ -235,7 +235,7 @@ class Controller:
                         return False
             self._data_storage.remove(Food, item_id)
             self._view.show_message('موفق', 'با موفقیت حذف شد', 'check')
-            self._view.reload_app_data()
+            self._view.reload_data(['foods'])
             return True
         else:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
@@ -283,7 +283,7 @@ class Controller:
         order = Order(1, customer_id, foods, paid_amount, accept_time, status, preparation_time)
         order = self._data_storage.add(order).__dict__
         self._view.show_message('موفق', 'با موفقیت اضافه شد', 'check')
-        self._view.reload_app_data()
+        self._view.reload_data(['orders'])
         return order
 
     def update_order(self, item_id: int, customer_id: int, foods: dict[int, int], paid_amount: float, accept_time: str,
@@ -300,7 +300,7 @@ class Controller:
             order.foods = foods
             order = self._data_storage.update(order)
             self._view.show_message('موفق', 'با موفقیت آپدیت شد', 'check')
-            self._view.reload_app_data()
+            self._view.reload_data(['orders'])
             return order.__dict__
         else:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
@@ -310,7 +310,7 @@ class Controller:
         if order:
             self._data_storage.remove(Order, item_id)
             self._view.show_message('موفق', 'با موفقیت حذف شد', 'check')
-            self._view.reload_app_data()
+            self._view.reload_data(['orders'])
             return True
         else:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
@@ -339,7 +339,7 @@ class Controller:
                                                  manufacture_date, expire_data)
         inventory_item = self._data_storage.add(inventory_item).__dict__
         self._view.show_message('موفق', 'با موفقیت اضافه شد', 'check')
-        self._view.reload_app_data()
+        self._view.reload_data(['inventory'])
         return inventory_item
 
     def update_inventory_item(self, item_id: int, ingredient_id: int, quantity: float, price: float, entrance_date: str,
@@ -355,7 +355,7 @@ class Controller:
             inventory_item.expire_date = expire_date
             inventory_item = self._data_storage.update(inventory_item)
             self._view.show_message('موفق', 'با موفقیت آپدیت شد', 'check')
-            self._view.reload_app_data()
+            self._view.reload_data(['inventory'])
             return inventory_item.__dict__
         else:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')
@@ -365,7 +365,7 @@ class Controller:
         if inventory_item:
             self._data_storage.remove(IngredientInventoryItem, item_id)
             self._view.show_message('موفق', 'با موفقیت حذف شد', 'check')
-            self._view.reload_app_data()
+            self._view.reload_data(['inventory'])
             return True
         else:
             self._view.show_message('خطا', 'مشکلی پیش آمد', 'cancel')

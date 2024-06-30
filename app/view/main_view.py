@@ -17,7 +17,7 @@ class MainView(CTkFrame):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self._context = Context()
-        self._context.add_callback(self._build_view)
+        self._context.add_callback(self._build_view, 'mode')
 
         self._manage_ingredients = ManageIngredients(
             self, width=self.winfo_width(), height=self.winfo_height(), fg_color='transparent'
