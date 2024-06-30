@@ -1,8 +1,10 @@
 import datetime
 
+from CTkMessagebox import CTkMessagebox
+
 from customtkinter import CTkButton
 from app.view.constants import normal_text_font
-
+from app.view.reports import *
 from app.view.pages.components import IDataView
 from .order_form import OrderForm
 
@@ -10,7 +12,8 @@ from .order_form import OrderForm
 class ManageOrders(IDataView):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__('orders', 'سفارش', 'سفارش‌ها',
-                         [('customer', 'مشتری'), ('foods', 'غذاها'), ('paid_amount', 'مبلغ پرداختی'),
+                         [('id', 'شماره سفارش'), ('customer', 'مشتری'), ('foods', 'غذاها'),
+                          ('paid_amount', 'مبلغ پرداختی'),
                           ('accept_time', 'زمان قبول'),
                           ('status', 'وضعیت'), ('preparation_time', 'زمان آماده‌سازی')],
                          {'id': 0, 'customer_id': 1, 'foods': [], 'paid_amount': '',
@@ -20,15 +23,26 @@ class ManageOrders(IDataView):
                          OrderForm
                          , *args, **kwargs)
 
-        self._report_button1 = CTkButton(master=self._report_frame, text="۱ گزارش", command=self._report1,
+        self._report_frame1 = None
+        self._report_frame2 = None
+        self._report_frame3 = None
+        self._report_frame4 = None
+
+        self._report_button1 = CTkButton(master=self._report_frame, text="گزارش غذاهای پرفروش", command=self._report1,
                                          font=normal_text_font)
-        self._report_button2 = CTkButton(master=self._report_frame, text="۲ گزارش", command=self._report2,
+        self._report_button2 = CTkButton(master=self._report_frame, text="گزارش سفارش‌های تکمیل نشده",
+                                         command=self._report2,
                                          font=normal_text_font)
-        self._report_button3 = CTkButton(master=self._report_frame, text="۳ گزارش", command=self._report3,
+        self._report_button3 = CTkButton(master=self._report_frame, text="گزارش ارزشمندترین مشتری‌ها",
+                                         command=self._report3,
+                                         font=normal_text_font)
+        self._report_button4 = CTkButton(master=self._report_frame, text="گزارش درآمد این ماه",
+                                         command=self._report4,
                                          font=normal_text_font)
         self._report_button1.pack(side="right", padx=5)
         self._report_button2.pack(side="right", padx=5)
         self._report_button3.pack(side="right", padx=5)
+        self._report_button4.pack(side="right", padx=5)
 
     def _add_callback(self, data):
         self._context.controller.add_order(data['customer_id'], data['foods'], data['paid_amount'], data['accept_time'],
@@ -43,10 +57,19 @@ class ManageOrders(IDataView):
                                               item['accept_time'], item['status'], item['preparation_time'])
 
     def _report1(self):
-        print("۱ گزارش اجرا شد")
+        self._report_frame1 = MostPurchasedFoods()
+        self._report_frame1.grab_set()
 
     def _report2(self):
-        print("۲ گزارش اجرا شد")
+        self._report_frame2 = PendingOrders()
+        self._report_frame2.grab_set()
 
     def _report3(self):
-        print("۳ گزارش اجرا شد")
+        self._report_frame3 = MostValuableCustomers()
+        self._report_frame3.grab_set()
+
+    def _report4(self):
+        income = self._context.controller.get_current_month_income()
+        CTkMessagebox(master=None, title='درآمد ماه جاری',
+                      message=f'مدیر محترم! درآمد کترینگ شما در 30 روز گذشته {income} تومان بوده است', icon='info',
+                      font=normal_text_font)
