@@ -1,13 +1,13 @@
-from customtkinter import CTkFrame, ThemeManager
+from customtkinter import CTkFrame
 from app.view.constants import *
 from app.view.pages import (
     ManageIngredients,
     ManageEcoPacks,
     ManageParts,
-    ManageInventory,
     ManageOrders,
     ManageFoods,
-    ManageCustomers
+    ManageCustomers,
+    ManageInventory
 )
 
 from app.view.context import Context

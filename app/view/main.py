@@ -3,7 +3,7 @@ from typing import Optional
 from customtkinter import (
     set_appearance_mode,
     set_default_color_theme,
-    ThemeManager, CTk,
+    CTk
 )
 
 from CTkMessagebox import CTkMessagebox
@@ -32,6 +32,7 @@ class AppView(CTk, IView):
         self.__context['customers'] = []
         self.__context['foods'] = []
         self.__context['orders'] = []
+        self.__context['inventory'] = []
         # Geometry
         self.geometry("950x700")
         self.resizable(False, False)
@@ -75,5 +76,7 @@ class AppView(CTk, IView):
         customers = self.controller.get_customers()
         foods = self.controller.get_foods()
         orders = self.controller.get_orders()
+        inventory = self.controller.get_inventory_items()
         self.__context.bulk_update(
-            {'ingredients': ingredients, 'parts': parts, 'customers': customers, 'foods': foods, 'orders': orders})
+            {'ingredients': ingredients, 'parts': parts, 'customers': customers, 'foods': foods, 'orders': orders,
+             'inventory': inventory})
