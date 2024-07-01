@@ -9,6 +9,7 @@ pillow = "*"
 tkcalendar = "*"
 ctkmessagebox = "*"
 pytest = "*"
+pylint = "*"
 
 [dev-packages]
 
