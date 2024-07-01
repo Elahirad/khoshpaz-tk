@@ -2,13 +2,6 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Admin:
-    id: int
-    username: str
-    password: str
-
-
-@dataclass
 class Ingredient:
     id: int
     name: str
@@ -39,14 +32,6 @@ class Food:
     name: str
     price: float
     parts: dict[int, int]  # dict[part_id, amount]
-
-
-@dataclass
-class EcoPack:
-    id: int
-    name: str
-    foods: list[int]  # list[food_id]
-    discount: float
 
 
 @dataclass
