@@ -1,6 +1,6 @@
 from app import AppView
+from app.model.datastorage import JSONStorage, CSVStorage
 from app.controller import Controller
-from app.model.datastorage import JSONStorage
 
 if __name__ == "__main__":
     app = AppView(controller=None)
