@@ -1,2 +1,2 @@
-from .main import AppView
 from .interface import IView
+from .main import AppView

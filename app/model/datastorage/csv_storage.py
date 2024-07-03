@@ -1,8 +1,9 @@
 import csv
 import os
-from typing import Type, TypeVar, List, Optional, Dict, Any
-from app.model.datastorage.interface import IDataStorage
 from dataclasses import fields, asdict
+from typing import Type, TypeVar, List, Optional, Dict, Any
+
+from app.model.datastorage.interface import IDataStorage
 
 T = TypeVar('T')
 

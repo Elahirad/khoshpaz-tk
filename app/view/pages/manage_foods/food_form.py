@@ -1,6 +1,6 @@
-from customtkinter import CTkLabel, CTkButton, CTkEntry, StringVar, CTkComboBox, CTkFrame
-
 from tkinter import Spinbox
+
+from customtkinter import CTkLabel, CTkButton, CTkEntry, StringVar, CTkComboBox, CTkFrame
 
 from app.view.constants import normal_text_font
 from app.view.pages.components import IForm

@@ -1,11 +1,11 @@
 import datetime
 
 from CTkMessagebox import CTkMessagebox
-
 from customtkinter import CTkButton
+
 from app.view.constants import normal_text_font
-from app.view.reports import *
 from app.view.pages.components import IDataView
+from app.view.reports import *
 from .order_form import OrderForm
 
 

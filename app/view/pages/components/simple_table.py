@@ -1,5 +1,3 @@
-from typing import Callable
-
 from customtkinter import CTkFrame, CTkScrollableFrame, CTkLabel
 
 from .simple_row import SimpleRow

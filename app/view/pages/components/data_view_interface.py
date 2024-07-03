@@ -1,8 +1,9 @@
-from customtkinter import CTkFrame, CTkLabel, CTkButton
 from typing import Type
 
-from app.view.pages.components import TableWithEditDelete, DeleteDialog
+from customtkinter import CTkFrame, CTkLabel, CTkButton
+
 from app.view.context import Context
+from app.view.pages.components import TableWithEditDelete, DeleteDialog
 from .form_interface import IForm
 
 

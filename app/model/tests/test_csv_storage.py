@@ -1,8 +1,8 @@
 import unittest
+from dataclasses import dataclass
 from unittest.mock import patch, mock_open
+
 from app.model.datastorage.csv_storage import CSVStorage
-from app.model.types import Customer  # Assuming types.py contains Customer dataclass
-from dataclasses import dataclass, asdict
 
 
 @dataclass
