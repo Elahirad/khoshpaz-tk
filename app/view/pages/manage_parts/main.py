@@ -1,6 +1,3 @@
-from customtkinter import CTkButton
-
-from app.view.constants import normal_text_font
 from app.view.pages.components import IDataView
 from .part_form import PartForm
 
