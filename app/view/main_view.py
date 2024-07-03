@@ -1,5 +1,7 @@
 from customtkinter import CTkFrame
+
 from app.view.constants import *
+from app.view.context import Context
 from app.view.pages import (
     ManageIngredients,
     ManageParts,
@@ -8,8 +10,6 @@ from app.view.pages import (
     ManageCustomers,
     ManageInventory
 )
-
-from app.view.context import Context
 
 
 class MainView(CTkFrame):

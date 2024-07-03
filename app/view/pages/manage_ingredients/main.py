@@ -1,6 +1,3 @@
-from customtkinter import CTkButton
-
-from app.view.constants import normal_text_font
 from app.view.pages.components import IDataView
 from .ingredient_form import IngredientForm
 
@@ -13,9 +10,9 @@ class ManageIngredients(IDataView):
 
         self._report_frame.pack_forget()
 
-    def _update_frame(self):
+    def _update_table(self):
         super()._update_table()
-        self._report_frame.place_forget()
+        self._report_frame.pack_forget()
 
     def _add_callback(self, data):
         self._context.controller.add_ingredient(data['name'], data['unit'])

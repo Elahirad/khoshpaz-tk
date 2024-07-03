@@ -1,6 +1,3 @@
-from customtkinter import CTkButton
-
-from app.view.constants import normal_text_font
 from app.view.pages.components import IDataView
 from .part_form import PartForm
 
@@ -13,7 +10,7 @@ class ManageParts(IDataView):
 
         self._report_frame.pack_forget()
 
-    def _update_frame(self):
+    def _update_table(self):
         super()._update_table()
         self._report_frame.pack_forget()
 

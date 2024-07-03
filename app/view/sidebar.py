@@ -1,5 +1,3 @@
-from app.view.constants import *
-
 from PIL import Image
 from customtkinter import (
     CTkButton,
@@ -13,6 +11,7 @@ from customtkinter import (
     set_appearance_mode,
 )
 
+from app.view.constants import *
 from app.view.context import Context
 
 

@@ -1,7 +1,8 @@
 import unittest
-from unittest.mock import mock_open, patch
-from app.model.datastorage.json_storage import JSONStorage
 from dataclasses import dataclass
+from unittest.mock import mock_open, patch
+
+from app.model.datastorage.json_storage import JSONStorage
 
 
 @dataclass

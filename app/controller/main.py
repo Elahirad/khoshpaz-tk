@@ -1,8 +1,8 @@
 import datetime
 
-from app.view.interface import IView
 from app.model import IDataStorage
 from app.model import Ingredient, Part, Food, Customer, Order, IngredientInventoryItem
+from app.view.interface import IView
 
 
 class Controller:

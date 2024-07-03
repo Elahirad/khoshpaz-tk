@@ -1,21 +1,18 @@
 from typing import Optional
 
+from CTkMessagebox import CTkMessagebox
 from customtkinter import (
     set_appearance_mode,
     set_default_color_theme,
     CTk
 )
 
-from CTkMessagebox import CTkMessagebox
-
+from app.controller import Controller
 from app.view.constants import *
+from app.view.interface import IView
 from app.view.main_view import MainView
 from app.view.sidebar import SideBar
 from .context import Context
-
-from app.view.interface import IView
-
-from app.controller import Controller
 
 
 class AppView(CTk, IView):

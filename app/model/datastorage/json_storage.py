@@ -1,5 +1,6 @@
 import json
 from typing import Type, TypeVar, List, Optional
+
 from app.model.datastorage.interface import IDataStorage
 
 T = TypeVar('T')
