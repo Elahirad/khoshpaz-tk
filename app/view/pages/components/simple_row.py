@@ -1,4 +1,6 @@
-from customtkinter import CTkFrame, CTkLabel, ThemeManager
+from typing import Callable
+
+from customtkinter import CTkFrame, CTkLabel, CTkButton, ThemeManager
 
 from app.view.constants import normal_text_font
 

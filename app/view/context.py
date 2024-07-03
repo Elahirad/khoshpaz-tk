@@ -1,7 +1,7 @@
 from typing import Callable
+from .tools import singleton
 
 from app.controller import Controller
-from .tools import singleton
 
 
 @singleton

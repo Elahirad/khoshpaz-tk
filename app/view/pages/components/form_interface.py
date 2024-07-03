@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
 from typing import Callable
+from abc import ABC, abstractmethod
 
 from customtkinter import CTkLabel, CTkToplevel
 

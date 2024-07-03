@@ -1,6 +1,6 @@
-import argparse
 import os
 import subprocess
+import argparse
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='This script generates UML diagram using pyreverse.')

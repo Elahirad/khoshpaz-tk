@@ -1,5 +1,5 @@
-import datetime
 from typing import Callable
+import datetime
 
 from customtkinter import CTkButton, CTkToplevel
 from tkcalendar import Calendar

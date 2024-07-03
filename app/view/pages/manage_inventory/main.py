@@ -1,11 +1,12 @@
 import datetime
 
 from customtkinter import CTkButton
-
 from app.view.constants import normal_text_font
+
+from .inventory_form import InventoryForm
+
 from app.view.pages.components import IDataView
 from app.view.reports import *
-from .inventory_form import InventoryForm
 
 
 class ManageInventory(IDataView):
